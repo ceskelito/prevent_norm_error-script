@@ -1,4 +1,7 @@
 # prevent_norm_error-script
+
+Thw script advice you with a red text on the screen how much norm errors are in your directory when you push
+
 place at the top of your .zshrc or .bashrc this function:
 
 git() {
