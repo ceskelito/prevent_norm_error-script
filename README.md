@@ -1,13 +1,14 @@
-# prevent_norm_error-script
+#!/bin/bash
 
-Thw script advice you with a red text on the screen how much norm errors are in your directory when you push.
+files="*.c *.h */*.c */*.h"
+file_count=$(find $files -type f | wc -l)
+norme_count=$(norminette | wc -l)
 
-Place at the top of your .zshrc or .bashrc this function:
-
-git() {
-  if [[ "$1" == "push" ]]; then
-    ~/scripts/pre-push/prevent_norm_error.sh "${@:2}"
-  else
-    command git "$@"
-  fi
-}
+if [ "$file_count" -ne "$norme_count" ]; then
+    diff=($norme_count - $file_count)
+    echo -e "\n\033[31;1;4mPossibili $diff errori di norma!\033[0m\n"
+    git push $@
+    exit 1
+fi
+    git push $@	
+exit 0
